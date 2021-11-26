@@ -1832,13 +1832,14 @@ anychart.core.ChartWithAxes.prototype.setupByJSONWithScales = function(config, s
  * @protected
  *
  * @param {Array.<anychart.core.Axis>} axes
- * @param {Object.<number>} info
+ * @param {Array.<number>} info - Array where index is index of axis, value is index of target axis.
  */
 anychart.core.ChartWithAxes.prototype.setupCrossAxes = function(axes, info) {
-  for (var axisIndex in info) {
-    var index = parseInt(axisIndex,10);
-    var axis = axes[index];
-    axis.valueTarget(info[index]);
+  for (var i = 0; i < info.length; i++) {
+    var axis = axes[i];
+    if (goog.isDef(axis)) {
+      axis.valueTarget(info[i]);
+    }
   }
 };
 
@@ -1865,10 +1866,10 @@ anychart.core.ChartWithAxes.prototype.setupAxes = function(opt_config) {
  * @param {Array.<anychart.core.Axis>} axes
  * @param {Array.<anychart.core.Axis>} targetsArray
  *
- * @return {Object.<number>}
+ * @return {Array.<number>} - Array where index is index of axis, value is index of target axis.
  */
 anychart.core.ChartWithAxes.prototype.serializeCrossAxes = function(axes, targetsArray) {
-  var info = {};
+  var info = [];
 
   for (var i = 0; i < axes.length; i++) {
     var axis = axes[i];
