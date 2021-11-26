@@ -1068,7 +1068,7 @@ anychart.ganttModule.Column.prototype.draw = function() {
             t.putAt(cellBounds, stage);
 
             t.finalizeComplexity();
-            this.labelsTexts_.push(/** @type {string} */ (t.text()));
+            this.labelsTexts_[ind] = (/** @type {string} */ (t.text()));
           } else {
             t.renderTo(null);
           }
