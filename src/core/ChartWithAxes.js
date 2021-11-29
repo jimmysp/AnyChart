@@ -1848,7 +1848,7 @@ anychart.core.ChartWithAxes.prototype.setupByJSONWithScales = function(config, s
 anychart.core.ChartWithAxes.prototype.setupCrossAxes = function(axes, info) {
   for (var i = 0; i < info.length; i++) {
     var axis = axes[i];
-    if (goog.isDef(axis)) {
+    if (goog.isDefAndNotNull(axis)) {
       axis.valueTarget(info[i]);
     }
   }
@@ -1889,6 +1889,8 @@ anychart.core.ChartWithAxes.prototype.serializeCrossAxes = function(axes, target
       info[i] = goog.isNumber(target) ?
         /** @type {number} */ (target) :
         goog.array.indexOf(targetsArray, /** @type {anychart.core.Axis} */ (target));
+    } else {
+      info[i] = null;
     }
   }
 
