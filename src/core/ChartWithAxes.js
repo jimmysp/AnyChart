@@ -1335,7 +1335,13 @@ anychart.core.ChartWithAxes.prototype.placeCrossAxes_ = function(axes, bounds) {
         axis.parentBounds(bounds);
 
         var axisBounds = axis.getPixelBounds(true);
-        var targetScale = this.getValueTargetFromAxis(axis).scale();
+        var targetAxis = this.getValueTargetFromAxis(axis);
+
+        if (!targetAxis) {
+          continue;
+        }
+
+        var targetScale = targetAxis.scale();
         var orientation = axis.getOption('orientation');
         var padding = 0;
 
@@ -1407,6 +1413,11 @@ anychart.core.ChartWithAxes.prototype.getBoundsChangedSignal = function() {
 anychart.core.ChartWithAxes.prototype.isAxisVisible_ = function(axis) {
   var value = axis.getOption('value');
   var targetAxis = this.getValueTargetFromAxis(axis);
+
+  if (!targetAxis) {
+    return true;
+  }
+
   var scale = targetAxis.scale();
 
   var isVisible = goog.isNull(value);
