@@ -214,7 +214,7 @@ anychart.waterfallModule.totals.Total.prototype.needsExtremums = function() {
 
 /** @inheritDoc */
 anychart.waterfallModule.totals.Total.prototype.chartHasLabelOverrides = function() {
-  return false;
+  return true;
 };
 
 
