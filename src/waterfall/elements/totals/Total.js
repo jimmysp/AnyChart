@@ -213,12 +213,6 @@ anychart.waterfallModule.totals.Total.prototype.needsExtremums = function() {
 
 
 /** @inheritDoc */
-anychart.waterfallModule.totals.Total.prototype.chartHasLabelOverrides = function() {
-  return true;
-};
-
-
-/** @inheritDoc */
 anychart.waterfallModule.totals.Total.prototype.selectPoint = function(indexOrIndexes, opt_event) {
   return this;
 };
