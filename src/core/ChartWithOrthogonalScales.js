@@ -950,15 +950,37 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
     for (var xScaleUid in this.drawingPlansByYAndXScale_) {
       // calculating zoomed indexes
       var firstIndex, lastIndex, firstInternalIndex, lastInternalIndex;
-      data = this.drawingPlansByXScale[xScaleUid][0].data;
+      var xPlans = this.drawingPlansByXScale[xScaleUid];
+      var xPlan = xPlans[0];
+      data = xPlan.data;
+      var ser = xPlan.series;
+
       var dataLength = data.length;
       var xScale = this.xScales[xScaleUid];
       if (anychart.utils.instanceOf(xScale, anychart.scales.Ordinal)) {
         if (dataLength) {
-          firstIndex = goog.math.clamp(Math.floor(this.getZoomStartRatio() * dataLength - 1), 0, dataLength - 1);
-          lastIndex = goog.math.clamp(Math.ceil(this.getZoomEndRatio() * dataLength + 1), 0, dataLength - 1);
-          firstInternalIndex = goog.math.clamp(Math.floor(this.getZoomStartRatio() * dataLength + 0.5), 0, dataLength - 1);
-          lastInternalIndex = goog.math.clamp(Math.floor(this.getZoomEndRatio() * dataLength - 0.5), 0, dataLength - 1);
+          var zoomStartRatio = this.getZoomStartRatio();
+          var zoomEndRatio = this.getZoomEndRatio();
+
+          firstIndex = goog.math.clamp(Math.floor(zoomStartRatio * dataLength - 1), 0, dataLength - 1);
+          lastIndex = goog.math.clamp(Math.ceil(zoomEndRatio * dataLength + 1), 0, dataLength - 1);
+          firstInternalIndex = goog.math.clamp(Math.floor(zoomStartRatio * dataLength + 0.5), 0, dataLength - 1);
+          lastInternalIndex = goog.math.clamp(Math.floor(zoomEndRatio * dataLength - 0.5), 0, dataLength - 1);
+
+          // https://anychart.atlassian.net/browse/DVF-4681
+          if (ser.getOption('connectMissingPoints')) {
+            var p1 = data[firstIndex];
+            var p2 = data[lastIndex];
+
+            if (p1.meta['missing'] && p1.meta['notMissingStart']) {
+              firstIndex = p1.meta['notMissingStartIndex'];
+              // TODO WTH with firstInternalIndex?
+            }
+            if (p2.meta['missing'] && p2.meta['notMissingEnd']) {
+              lastIndex = p2.meta['notMissingEndIndex'];
+              // TODO WTH with firstInternalIndex?
+            }
+          }
         } else {
           firstIndex = lastIndex = firstInternalIndex = lastInternalIndex = NaN;
         }
@@ -993,6 +1015,7 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
         firstInternalIndex = firstIndex;
         lastInternalIndex = lastIndex;
       }
+
       drawingPlansByYScale = this.drawingPlansByYAndXScale_[xScaleUid];
       for (var yScaleUid in drawingPlansByYScale) {
         drawingPlans = drawingPlansByYScale[yScaleUid];
@@ -1136,6 +1159,7 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
               // TODO(AntonKagakin): drawing plan should be rewritten to work with categories indexes after DVF-3893
               // TODO(AntonKagakin): (xMode scatter) cause now there can be several points in category.
               if (!point) continue;
+
               if (!anychart.core.series.filterPointAbsenceReason(point.meta['missing'],
                   anychart.core.series.PointAbsenceReason.ANY_BUT_RANGE)) {
                 for (k = 0; k < names.length; k++) {

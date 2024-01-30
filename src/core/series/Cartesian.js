@@ -767,7 +767,7 @@ anychart.core.series.Cartesian.prototype.isPointVisible = function(point) {
     index = this.drawingPlan.xHashMap[hash];
   }
   return (index >= this.drawingPlan.firstIndex && index <= this.drawingPlan.lastIndex);
-};
+  };
 
 
 //endregion
@@ -777,6 +777,57 @@ anychart.core.series.Cartesian.prototype.isPointVisible = function(point) {
 //  Drawing plan generation
 //
 //----------------------------------------------------------------------------------------------------------------------
+
+/**
+ * https://anychart.atlassian.net/browse/DVF-4681.
+ * 
+ * Adds meta info about not-missing points to missing points
+ * to be drawn for zooming cases (see ticket).
+ * 
+ * @param {*} pointsData - Points data from drawing plan calculated.
+ */
+anychart.core.series.Cartesian.prototype.processMissingPointsConnection_ = function(pointsData) {
+  var notMissingStart = null;
+  var notMissingEnd = null;
+  var notMissingStartIndex = NaN;
+  var notMissingEndIndex = NaN;
+
+  /*
+    This code just allows to skip double passage (from start and from end)
+    to define previous not missing point from left and from right.
+  */
+  for (var i = 0; i < pointsData.length; i++) {
+    var end = pointsData.length - i - 1;
+    var currPointFromStart = pointsData[i];
+    var currPointFromEnd = pointsData[end];
+
+    var isMissingStart = !!currPointFromStart.meta['missing'];
+    var isMissingEnd = !!currPointFromEnd.meta['missing'];
+
+    if (isMissingStart) {
+      currPointFromStart.meta['notMissingStart'] = notMissingStart;
+      currPointFromStart.meta['notMissingStartIndex'] = notMissingStartIndex;
+      if (notMissingStart) {
+        notMissingStart.meta['connectsMissingPointsStart'] = true;
+      }
+    } else {
+      notMissingStart = currPointFromStart;
+      notMissingStartIndex = i;
+    }
+
+    if (isMissingEnd) {
+      currPointFromEnd.meta['notMissingEnd'] = notMissingEnd;
+      currPointFromEnd.meta['notMissingEndIndex'] = notMissingEndIndex;
+      if (notMissingEnd) {
+        notMissingEnd.meta['connectsMissingPointsEnd'] = true;
+      }
+    } else {
+      notMissingEnd = currPointFromEnd;
+      notMissingEndIndex = end;
+    }
+  }
+};
+
 /**
  * @param {Array} data
  * @param {Function} dataPusher
@@ -905,6 +956,11 @@ anychart.core.series.Cartesian.prototype.getDrawingData = function(data, dataPus
     this.postProcessPoint(iterator, point, postProcessingMeta);
 
     dataPusher(data, point);
+  }
+
+  // https://anychart.atlassian.net/browse/DVF-4681
+  if (!!this.getOption('connectMissingPoints') && nonMissingCount !== data.length) {
+    this.processMissingPointsConnection_(data);
   }
 
   // anychart.performance.end('Drawing plan calc');
