@@ -968,7 +968,8 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
           lastInternalIndex = goog.math.clamp(Math.floor(zoomEndRatio * dataLength - 0.5), 0, dataLength - 1);
 
           // https://anychart.atlassian.net/browse/DVF-4681
-          if (ser.getOption('connectMissingPoints')) {
+          var isSeriesConnectable = ser.check(anychart.core.drawers.Capabilities.SUPPORTS_CONNECTING_MISSING);
+          if (isSeriesConnectable && ser.getOption('connectMissingPoints')) {
             var p1 = data[firstIndex];
             var p2 = data[lastIndex];
 

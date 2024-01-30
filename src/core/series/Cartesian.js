@@ -959,8 +959,13 @@ anychart.core.series.Cartesian.prototype.getDrawingData = function(data, dataPus
   }
 
   // https://anychart.atlassian.net/browse/DVF-4681
-  if (!!this.getOption('connectMissingPoints') && nonMissingCount !== data.length) {
-    this.processMissingPointsConnection_(data);
+  var processMissingPointsConnection = 
+    this.check(anychart.core.drawers.Capabilities.SUPPORTS_CONNECTING_MISSING) &&
+    !!this.getOption('connectMissingPoints') &&
+    nonMissingCount !== data.length;
+    
+  if (processMissingPointsConnection) {
+      this.processMissingPointsConnection_(data);
   }
 
   // anychart.performance.end('Drawing plan calc');
