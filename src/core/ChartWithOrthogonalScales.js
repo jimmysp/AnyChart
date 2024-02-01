@@ -932,6 +932,64 @@ anychart.core.ChartWithOrthogonalScales.prototype.postProcessStacking = function
 
 
 /**
+ * X-Drawing plan selector for series connection.
+ * https://anychart.atlassian.net/browse/DVF-4681
+ * 
+ * @param {*} xPlans 
+ * @return {Object} - Plan.
+ */
+anychart.core.ChartWithOrthogonalScales.prototype.selectXPlan_ = function(xPlans) {
+  var connectablePlans = [];
+
+  for (var i = 0; i < xPlans.length; i++) {
+    var plan = xPlans[i]; 
+    var ser = plan.series;
+    var isSeriesConnectable = ser.check(anychart.core.drawers.Capabilities.SUPPORTS_CONNECTING_MISSING);
+
+    if (isSeriesConnectable) {
+      connectablePlans.push(plan);
+    }
+  }
+
+  var selectedPlan = xPlans[0];
+
+  if (connectablePlans.length) {
+    var zoomStartRatio = this.getZoomStartRatio();
+    var zoomEndRatio = this.getZoomEndRatio();
+
+    var dataLength = xPlans[0].data.length;
+    var firstIndex = goog.math.clamp(Math.floor(zoomStartRatio * dataLength - 1), 0, dataLength - 1);
+    var lastIndex = goog.math.clamp(Math.ceil(zoomEndRatio * dataLength + 1), 0, dataLength - 1);
+
+    var minNotMissingIndex = firstIndex;
+    var val;
+
+    for (var i = 0; i < connectablePlans.length; i++) {
+      var plan = connectablePlans[i];
+      var p1 = plan.data[firstIndex];
+
+      var ind = firstIndex;
+      if (p1.meta['missing'] && p1.meta['notMissingStart']) {
+        val = p1.meta['notMissingStartIndex'];
+        ind = Math.min(ind, isNaN(val) ? ind : val);
+      }
+
+      if (!p1.meta['missing'] && p1.meta['hasPreviousMissingFromStart']) {
+        val = p1.meta['notMissingStartIndexForPreviousMissing'];
+        ind = Math.min(ind, isNaN(val) ? ind : val);
+      }
+
+      if (ind < minNotMissingIndex) {
+        minNotMissingIndex = ind;
+        selectedPlan = plan;
+      }
+    }
+  }
+
+  return selectedPlan;
+};
+
+/**
  * @protected
  */
 anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() {
@@ -951,7 +1009,8 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
       // calculating zoomed indexes
       var firstIndex, lastIndex, firstInternalIndex, lastInternalIndex;
       var xPlans = this.drawingPlansByXScale[xScaleUid];
-      var xPlan = xPlans[0];
+      var xPlan = this.selectXPlan_(xPlans);
+
       data = xPlan.data;
       var ser = xPlan.series;
 
@@ -973,13 +1032,27 @@ anychart.core.ChartWithOrthogonalScales.prototype.calculateYScales = function() 
             var p1 = data[firstIndex];
             var p2 = data[lastIndex];
 
+            var v;
             if (p1.meta['missing'] && p1.meta['notMissingStart']) {
-              firstIndex = p1.meta['notMissingStartIndex'];
+              v = p1.meta['notMissingStartIndex'];
+              firstIndex = isNaN(v) ? firstIndex : v;
               // TODO WTH with firstInternalIndex?
             }
+
+            if (!p1.meta['missing'] && p1.meta['hasPreviousMissingFromStart']) {
+              v = p1.meta['notMissingStartIndexForPreviousMissing'];
+              firstIndex = Math.min(firstIndex, isNaN(v) ? firstIndex : v);
+            }
+
             if (p2.meta['missing'] && p2.meta['notMissingEnd']) {
-              lastIndex = p2.meta['notMissingEndIndex'];
+              v = p2.meta['notMissingEndIndex'];
+              lastIndex = isNaN(v) ? lastIndex : v;
               // TODO WTH with firstInternalIndex?
+            }
+
+            if (!p2.meta['missing'] && p2.meta['hasPreviousMissingFromEnd']) {
+              v = p1.meta['notMissingEndIndexForPreviousMissing'];
+              lastIndex = Math.max(lastIndex, isNaN(v) ? lastIndex : v);
             }
           }
         } else {
