@@ -1351,6 +1351,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['ellipse'] = proto.ellipse;
   proto['position'] = proto.position;
   proto['triangle'] = proto.triangle;
+  proto['wave'] = proto.wave;
   proto['trendChannel'] = proto.trendChannel;
   proto['finiteTrendChannel'] = proto.finiteTrendChannel;
   proto['andrewsPitchfork'] = proto.andrewsPitchfork;
