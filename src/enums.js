@@ -4926,6 +4926,7 @@ anychart.enums.AnnotationTypes = {
   POSITION: 'position',
   TRIANGLE: 'triangle',
   TREND_CHANNEL: 'trend-channel',
+  WAVE: 'wave',
   FINITE_TREND_CHANNEL: 'finite-trend-channel',
   ANDREWS_PITCHFORK: 'andrews-pitchfork',
   FIBONACCI_FAN: 'fibonacci-fan',

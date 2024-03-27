@@ -19,6 +19,7 @@ goog.require('anychart.annotationsModule.TrendChannel');
 goog.require('anychart.annotationsModule.Triangle');
 goog.require('anychart.annotationsModule.VerticalLine');
 goog.require('anychart.annotationsModule.VerticalRange');
+goog.require('anychart.annotationsModule.Wave');
 goog.require('anychart.core.IPlot');
 goog.require('anychart.core.VisualBase');
 goog.require('goog.array');
@@ -1207,6 +1208,7 @@ anychart.annotationsModule.PlotController.AnchorDragger = function(plotControlle
    *   0 - moving first annotation anchor;
    *   1 - moving second annotation anchor;
    *   2 - moving third annotation anchor;
+   *   3 - moving fourth annotation anchor;
    * @type {number}
    * @private
    */
