@@ -12,23 +12,12 @@ goog.require('anychart.annotationsModule.InfiniteLine');
 goog.require('anychart.annotationsModule.Label');
 goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
-<<<<<<< HEAD
-goog.require('anychart.annotationsModule.PatternCupHandle');
-goog.require('anychart.annotationsModule.PatternFlag');
-goog.require('anychart.annotationsModule.PatternTriangle');
-goog.require('anychart.annotationsModule.PatternWedge');
-goog.require('anychart.annotationsModule.Position');
-=======
-<<<<<<< Updated upstream
-=======
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternPennant');
 goog.require('anychart.annotationsModule.PatternTriangle');
 goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Position');
->>>>>>> Stashed changes
->>>>>>> develop-pattern-pennant
 goog.require('anychart.annotationsModule.Ray');
 goog.require('anychart.annotationsModule.Rectangle');
 goog.require('anychart.annotationsModule.TrendChannel');
