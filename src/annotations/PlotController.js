@@ -12,11 +12,23 @@ goog.require('anychart.annotationsModule.InfiniteLine');
 goog.require('anychart.annotationsModule.Label');
 goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
+<<<<<<< HEAD
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternTriangle');
 goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Position');
+=======
+<<<<<<< Updated upstream
+=======
+goog.require('anychart.annotationsModule.PatternCupHandle');
+goog.require('anychart.annotationsModule.PatternFlag');
+goog.require('anychart.annotationsModule.PatternPennant');
+goog.require('anychart.annotationsModule.PatternTriangle');
+goog.require('anychart.annotationsModule.PatternWedge');
+goog.require('anychart.annotationsModule.Position');
+>>>>>>> Stashed changes
+>>>>>>> develop-pattern-pennant
 goog.require('anychart.annotationsModule.Ray');
 goog.require('anychart.annotationsModule.Rectangle');
 goog.require('anychart.annotationsModule.TrendChannel');
@@ -864,6 +876,11 @@ anychart.annotationsModule.PlotController.prototype.ellipse = function(opt_confi
 
 
 /**
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> develop-pattern-pennant
  * Creates and returns a pattern-cup-handle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternCupHandle}
@@ -892,6 +909,23 @@ anychart.annotationsModule.PlotController.prototype.patternFlag = function(opt_c
 
 
 /**
+<<<<<<< HEAD
+=======
+ * Creates and returns a pattern-pennant annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternPennant}
+ */
+anychart.annotationsModule.PlotController.prototype.patternPennant = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.PatternPennant} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNPENNANT));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
+>>>>>>> develop-pattern-pennant
  * Creates and returns a pattern-triangle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternTriangle}
@@ -934,6 +968,10 @@ anychart.annotationsModule.PlotController.prototype.position = function(opt_conf
 
 
 /**
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> develop-pattern-pennant
  * Creates and returns a triangle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.Triangle}
