@@ -15,6 +15,7 @@ goog.require('anychart.annotationsModule.Marker');
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternPennant');
+goog.require('anychart.annotationsModule.PatternSymmetricalWedge');
 goog.require('anychart.annotationsModule.PatternTriangle');
 goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Position');
@@ -865,11 +866,6 @@ anychart.annotationsModule.PlotController.prototype.ellipse = function(opt_confi
 
 
 /**
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> develop-pattern-pennant
  * Creates and returns a pattern-cup-handle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternCupHandle}
@@ -898,15 +894,26 @@ anychart.annotationsModule.PlotController.prototype.patternFlag = function(opt_c
 
 
 /**
-<<<<<<< HEAD
-=======
  * Creates and returns a pattern-pennant annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternPennant}
  */
 anychart.annotationsModule.PlotController.prototype.patternPennant = function(opt_config) {
-  var annotation = /** @type {anychart.annotationsModule.PatternPennant} */(
-      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNPENNANT));
+    var annotation = /** @type {anychart.annotationsModule.PatternPennant} */(
+        this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNPENNANT));
+    annotation.setup(opt_config);
+    this.bindAnnotation(annotation, true);
+    return annotation;
+  };
+
+/**
+ * Creates and returns a pattern-symmetrical-wedge annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternSymmetricalWedge}
+ */
+anychart.annotationsModule.PlotController.prototype.patternSymmetricalWedge = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.PatternSymmetricalWedge} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNSYMMETRICALWEDGE));
   annotation.setup(opt_config);
   this.bindAnnotation(annotation, true);
   return annotation;
@@ -914,7 +921,6 @@ anychart.annotationsModule.PlotController.prototype.patternPennant = function(op
 
 
 /**
->>>>>>> develop-pattern-pennant
  * Creates and returns a pattern-triangle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternTriangle}
@@ -957,10 +963,6 @@ anychart.annotationsModule.PlotController.prototype.position = function(opt_conf
 
 
 /**
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> develop-pattern-pennant
  * Creates and returns a triangle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.Triangle}
@@ -1452,6 +1454,8 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['ellipse'] = proto.ellipse;
   proto['patternCupHandle'] = proto.patternCupHandle;
   proto['patternFlag'] = proto.patternFlag;
+  proto['patternPennant'] = proto.patternPennant;
+  proto['patternSymmetricalWedge'] = proto.patternSymmetricalWedge;
   proto['patternTriangle'] = proto.patternTriangle;
   proto['patternWedge'] = proto.patternWedge;
   proto['position'] = proto.position;
