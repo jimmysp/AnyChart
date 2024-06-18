@@ -4932,6 +4932,7 @@ anychart.enums.AnnotationTypes = {
   PATTERNSYMMETRICALWEDGE: 'pattern-symmetrical-wedge',
   PATTERNTRIANGLE: 'pattern-triangle',
   PATTERNWEDGE: 'pattern-wedge',
+  THREELINECROSS: 'three-line-cross',
   WAVE: 'wave',
   FINITE_TREND_CHANNEL: 'finite-trend-channel',
   ANDREWS_PITCHFORK: 'andrews-pitchfork',

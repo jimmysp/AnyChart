@@ -21,6 +21,7 @@ goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Position');
 goog.require('anychart.annotationsModule.Ray');
 goog.require('anychart.annotationsModule.Rectangle');
+goog.require('anychart.annotationsModule.ThreeLineCross');
 goog.require('anychart.annotationsModule.TrendChannel');
 goog.require('anychart.annotationsModule.Triangle');
 goog.require('anychart.annotationsModule.VerticalLine');
@@ -977,6 +978,20 @@ anychart.annotationsModule.PlotController.prototype.triangle = function(opt_conf
 
 
 /**
+ * Creates and returns a three-line-cross annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.ThreeLineCross}
+ */
+anychart.annotationsModule.PlotController.prototype.threeLineCross = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.ThreeLineCross} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.THREELINECROSS));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
  * Creates and returns a wave annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.Wave}
@@ -1459,6 +1474,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['patternTriangle'] = proto.patternTriangle;
   proto['patternWedge'] = proto.patternWedge;
   proto['position'] = proto.position;
+  proto['threeLineCross'] = proto.threeLineCross;
   proto['triangle'] = proto.triangle;
   proto['wave'] = proto.wave;
   proto['trendChannel'] = proto.trendChannel;
