@@ -4931,6 +4931,7 @@ anychart.enums.AnnotationTypes = {
   PATTERNPENNANT: 'pattern-pennant',
   PATTERNSYMMETRICALWEDGE: 'pattern-symmetrical-wedge',
   PATTERNTRIANGLE: 'pattern-triangle',
+  PATTERNWAVEABC: 'pattern-wave-abc',
   PATTERNWEDGE: 'pattern-wedge',
   THREELINECROSS: 'three-line-cross',
   WAVE: 'wave',

@@ -52,6 +52,18 @@ anychart.annotationsModule.PatternBase = function(chartController) {
    */
   this.hatchFillResolver_ = /** @type {function(anychart.annotationsModule.Base,number):acgraph.vector.PatternFill} */(
       anychart.annotationsModule.Base.getColorResolver('hatchFill', anychart.enums.ColorType.HATCH_FILL, true));
+
+  /**
+   * Trend stroke resolver.
+   * @param {anychart.annotationsModule.Base} annotation
+   * @param {number} state
+   * @return {acgraph.vector.Stroke}
+   * @private
+   */
+  this.trendResolver_ = /** @type {function(anychart.annotationsModule.Base,number,number=):acgraph.vector.Stroke} */(
+    anychart.annotationsModule.Base.getColorResolver('trend', anychart.enums.ColorType.STROKE, true));
+
+
   anychart.core.settings.createDescriptorsMeta(this.descriptorsMeta, anychart.annotationsModule.X_ANCHOR_DESCRIPTORS_META);
   anychart.core.settings.createDescriptorsMeta(this.descriptorsMeta, anychart.annotationsModule.VALUE_ANCHOR_DESCRIPTORS_META);
   anychart.core.settings.createDescriptorsMeta(this.descriptorsMeta, anychart.annotationsModule.SECOND_ANCHOR_POINT_DESCRIPTORS_META);
@@ -66,7 +78,7 @@ anychart.annotationsModule.PatternBase = function(chartController) {
   this.shouldShowTarget = false;
 };
 goog.inherits(anychart.annotationsModule.PatternBase, anychart.annotationsModule.Base);
-anychart.core.settings.populateAliases(anychart.annotationsModule.PatternBase, ['fill', 'hatchFill', 'stroke'], 'normal');
+anychart.core.settings.populateAliases(anychart.annotationsModule.PatternBase, ['fill', 'hatchFill', 'stroke', 'trend'], 'normal');
 anychart.core.settings.populate(anychart.annotationsModule.PatternBase, anychart.annotationsModule.X_ANCHOR_DESCRIPTORS);
 anychart.core.settings.populate(anychart.annotationsModule.PatternBase, anychart.annotationsModule.VALUE_ANCHOR_DESCRIPTORS);
 anychart.core.settings.populate(anychart.annotationsModule.PatternBase, anychart.annotationsModule.SECOND_ANCHOR_POINT_DESCRIPTORS);
@@ -103,7 +115,11 @@ anychart.annotationsModule.PatternBase.prototype.showTarget = function(visible) 
 /** @inheritDoc */
 anychart.annotationsModule.PatternBase.prototype.getNormalDescriptorsMeta = function() {
     var base = anychart.annotationsModule.PatternBase.base(this, 'getNormalDescriptorsMeta');
-    return goog.array.concat(base, anychart.annotationsModule.FILL_STROKE_DESCRIPTORS_META);
+    return goog.array.concat(
+        base,
+        anychart.annotationsModule.FILL_STROKE_DESCRIPTORS_META,
+        anychart.annotationsModule.STROKE_TREND_DESCRIPTORS_META
+    );
   };
 
 
@@ -119,12 +135,16 @@ anychart.annotationsModule.PatternBase.prototype.ensureCreated = function() {
     anychart.annotationsModule.PatternBase.base(this, 'ensureCreated');
 
     if (!this.paths_) {
-      // main, hatch, hover
-      this.paths_ = [this.rootLayer.path(), this.rootLayer.path(), this.rootLayer.path(), this.rootLayer.path()];
+      // main, hatch, hover, target
+      this.paths_ = [
+        this.rootLayer.path(), this.rootLayer.path(), this.rootLayer.path(), this.rootLayer.path(), this.rootLayer.path()
+      ];
       this.paths_[0].zIndex(anychart.annotationsModule.Base.STROKE_ZINDEX);
       this.paths_[1].zIndex(anychart.annotationsModule.Base.SHAPES_ZINDEX);
       this.paths_[2].zIndex(anychart.annotationsModule.Base.HATCH_ZINDEX);
       this.paths_[3].zIndex(anychart.annotationsModule.Base.HOVER_SHAPE_ZINDEX);
+      // trend stroke
+      this.paths_[4].zIndex(anychart.annotationsModule.Base.STROKE_ZINDEX);
     }
   };
 
@@ -186,9 +206,12 @@ anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1,
     var ax2 = Math.cos(Math.PI / -6) * (tx2 - axm) - Math.sin(Math.PI / -6) * (ty2 - aym);
     var ay2 = Math.sin(Math.PI / -6) * (tx2 - axm) + Math.cos(Math.PI / -6) * (ty2 - aym);
 
-    // for (var i = 0; i < this.paths_.length; i++) {
-        var path = this.paths_[0];
-        // target
+    this.paths_[4].clear();
+
+    for (var i = 3; i <= 4; i++) {
+        // only trend stroke and hover paths
+        var path = this.paths_[i];
+
         path.moveTo(tx1, ty1).lineTo(tx2, ty2);
 
         // arrow tip
@@ -196,13 +219,12 @@ anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1,
             .lineTo(tx2 - ax1, ty2 - ay1);
         path.moveTo(tx2, ty2)
             .lineTo(tx2 - ax2, ty2 - ay2);
-    // }
+    }
 };
 
 
 /** @inheritDoc */
 anychart.annotationsModule.PatternBase.prototype.colorize = function(state) {
-    anychart.annotationsModule.PatternBase.base(this, 'colorize', state);
     anychart.annotationsModule.PatternBase.base(this, 'colorize', state);
     this.paths_[0]
         .stroke(this.strokeResolver_(this, state));
@@ -215,6 +237,15 @@ anychart.annotationsModule.PatternBase.prototype.colorize = function(state) {
     this.paths_[3]
         .fill(anychart.color.TRANSPARENT_HANDLER)
         .stroke(/** @type {acgraph.vector.SolidFill} */(anychart.color.TRANSPARENT_HANDLER), this['hoverGap']() * 2);
+
+    // trend stroke
+    var stroke = this.trendResolver_(this, state);
+    if (!goog.isDef(stroke))
+      stroke = this.strokeResolver_(this, state);
+
+    this.paths_[4]
+        .fill(null)
+        .stroke(stroke);
   };
 
 
@@ -268,7 +299,8 @@ anychart.annotationsModule.PatternBase.prototype.serialize = function() {
     delete this.strokeResolver_;
     delete this.fillResolver_;
     delete this.hatchFillResolver_;
-  };
+    delete this.trendResolver_;
+};
 //endregion
 //export
 (function() {
