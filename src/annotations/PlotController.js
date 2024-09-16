@@ -17,6 +17,7 @@ goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternPennant');
 goog.require('anychart.annotationsModule.PatternSymmetricalWedge');
 goog.require('anychart.annotationsModule.PatternTriangle');
+goog.require('anychart.annotationsModule.PatternWaveABC');
 goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Position');
 goog.require('anychart.annotationsModule.Ray');
@@ -907,6 +908,7 @@ anychart.annotationsModule.PlotController.prototype.patternPennant = function(op
     return annotation;
   };
 
+
 /**
  * Creates and returns a pattern-symmetrical-wedge annotation.
  * @param {Object=} opt_config
@@ -929,6 +931,20 @@ anychart.annotationsModule.PlotController.prototype.patternSymmetricalWedge = fu
 anychart.annotationsModule.PlotController.prototype.patternTriangle = function(opt_config) {
   var annotation = /** @type {anychart.annotationsModule.PatternTriangle} */(
       this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNTRIANGLE));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
+ * Creates and returns a pattern-wedge annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternWaveABC}
+ */
+anychart.annotationsModule.PlotController.prototype.patternWaveABC = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.PatternWaveABC} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNWAVEABC));
   annotation.setup(opt_config);
   this.bindAnnotation(annotation, true);
   return annotation;
@@ -1472,6 +1488,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['patternPennant'] = proto.patternPennant;
   proto['patternSymmetricalWedge'] = proto.patternSymmetricalWedge;
   proto['patternTriangle'] = proto.patternTriangle;
+  proto['patternWaveABC'] = proto.patternWaveABC;
   proto['patternWedge'] = proto.patternWedge;
   proto['position'] = proto.position;
   proto['threeLineCross'] = proto.threeLineCross;
