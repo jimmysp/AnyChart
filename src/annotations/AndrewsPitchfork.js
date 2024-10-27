@@ -167,7 +167,7 @@ anychart.annotationsModule.AndrewsPitchfork.prototype.colorize = function(state)
       .fill(null)
       .stroke(this.strokeResolver_(this, state));
   this.paths_[1]
-      .fill(anychart.color.TRANSPARENT_HANDLER)
+      // .fill(anychart.color.TRANSPARENT_HANDLER) // remove fill, shape needs only stroke
       .stroke(/** @type {acgraph.vector.SolidFill} */(anychart.color.TRANSPARENT_HANDLER), this['hoverGap']() * 2);
 };
 
