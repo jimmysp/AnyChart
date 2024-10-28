@@ -18,7 +18,7 @@ anychart.annotationsModule.AndrewsPitchfork = function(chartController) {
   /**
    * Paths array.
    * @type {Array.<acgraph.vector.Path>}
-   * @private
+   * @protected
    */
   this.paths_ = null;
 
