@@ -12,7 +12,6 @@ goog.require('anychart.annotationsModule.InfiniteLine');
 goog.require('anychart.annotationsModule.Label');
 goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
-goog.require('anychart.annotationsModule.ModSchiffPitchfork');
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternPennant');
@@ -20,10 +19,10 @@ goog.require('anychart.annotationsModule.PatternSymmetricalWedge');
 goog.require('anychart.annotationsModule.PatternTriangle');
 goog.require('anychart.annotationsModule.PatternWaveABC');
 goog.require('anychart.annotationsModule.PatternWedge');
+goog.require('anychart.annotationsModule.Pitchfork');
 goog.require('anychart.annotationsModule.Position');
 goog.require('anychart.annotationsModule.Ray');
 goog.require('anychart.annotationsModule.Rectangle');
-goog.require('anychart.annotationsModule.SchiffPitchfork');
 goog.require('anychart.annotationsModule.ThreeLineCross');
 goog.require('anychart.annotationsModule.TrendChannel');
 goog.require('anychart.annotationsModule.Triangle');
@@ -1066,27 +1065,13 @@ anychart.annotationsModule.PlotController.prototype.andrewsPitchfork = function(
 
 
 /**
- * Creates and returns a schiffPitchfork annotation.
+ * Creates and returns a pitchfork annotation.
  * @param {Object=} opt_config
- * @return {anychart.annotationsModule.SchiffPitchfork}
+ * @return {anychart.annotationsModule.Pitchfork}
  */
-anychart.annotationsModule.PlotController.prototype.schiffPitchfork = function(opt_config) {
-  var annotation = /** @type {anychart.annotationsModule.SchiffPitchfork} */(
-      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.SCHIFF_PITCHFORK));
-  annotation.setup(opt_config);
-  this.bindAnnotation(annotation, true);
-  return annotation;
-};
-
-
-/**
- * Creates and returns a modSchiffPitchfork annotation.
- * @param {Object=} opt_config
- * @return {anychart.annotationsModule.ModSchiffPitchfork}
- */
-anychart.annotationsModule.PlotController.prototype.modSchiffPitchfork = function(opt_config) {
-  var annotation = /** @type {anychart.annotationsModule.ModSchiffPitchfork} */(
-      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.MOD_SCHIFF_PITCHFORK));
+anychart.annotationsModule.PlotController.prototype.pitchfork = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.Pitchfork} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PITCHFORK));
   annotation.setup(opt_config);
   this.bindAnnotation(annotation, true);
   return annotation;
@@ -1527,8 +1512,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['trendChannel'] = proto.trendChannel;
   proto['finiteTrendChannel'] = proto.finiteTrendChannel;
   proto['andrewsPitchfork'] = proto.andrewsPitchfork;
-  proto['schiffPitchfork'] = proto.schiffPitchfork;
-  proto['modSchiffPitchfork'] = proto.modSchiffPitchfork;
+  proto['pitchfork'] = proto.pitchfork;
   proto['fibonacciFan'] = proto.fibonacciFan;
   proto['fibonacciArc'] = proto.fibonacciArc;
   proto['fibonacciRetracement'] = proto.fibonacciRetracement;

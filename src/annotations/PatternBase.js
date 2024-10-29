@@ -106,6 +106,7 @@ anychart.annotationsModule.PatternBase.prototype.SUPPORTED_ANCHORS = anychart.an
 anychart.annotationsModule.PatternBase.prototype.showTarget = function(visible) {
   this.shouldShowTarget = visible;
   this.invalidate(anychart.ConsistencyState.ANNOTATIONS_LAST_POINT);
+  this.draw();
   return this;
 };
 
