@@ -93,8 +93,6 @@ goog.mixin(goog.global['anychart']['themes']['defaultTheme']['chart'], {
       'channelWidth': 0
     },
     'andrewsPitchfork': {},
-    'schiffPitchfork': {},
-    'modSchiffPitchfork': {},
     'fibonacciFan': {
       'levels': [
         0,
