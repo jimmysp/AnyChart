@@ -90,7 +90,7 @@ anychart.annotationsModule.PatternPennant.prototype.drawThreePointsShape = funct
         ty += y3 - py3;
     }
 
-    this.drawTarget(x2, y2, tx, ty);
+    this.drawTarget(x2, y2, tx, ty, true);
 };
 
 

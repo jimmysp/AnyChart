@@ -98,22 +98,22 @@ anychart.annotationsModule.PatternTriangle.prototype.drawFourPointsShape = funct
         if (py && py > (lowest + height * 0.80)) {
             // calculate target
             var tx = px + Math.abs(x2 - x1), ty = py + Math.abs(y2 - y1);
-            this.drawTarget(px, py, tx, ty);
+            this.drawTarget(px, py, tx, ty, true);
         }
         // descending triangle: tip is in the lower 20% region of the triangle height
         else if (py && py < (lowest + height * 0.20)) {
             // calculate target
             var tx = px + Math.abs(x2 - x1), ty = py - Math.abs(y2 - y1);
-            this.drawTarget(px, py, tx, ty);
+            this.drawTarget(px, py, tx, ty, true);
         }
         // symmetrical or undiceded, show two targets
         else {
             // calculate target
             var tx = px + Math.abs(x2 - x1), ty = py + Math.abs(y2 - y1);
-            this.drawTarget(px, py, tx, ty);
+            this.drawTarget(px, py, tx, ty, true);
 
             ty = py - Math.abs(y2 - y1);
-            this.drawTarget(px, py, tx, ty);
+            this.drawTarget(px, py, tx, ty, false);
         }
     }
 };

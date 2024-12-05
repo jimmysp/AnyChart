@@ -82,7 +82,7 @@ anychart.annotationsModule.PatternWedge.prototype.drawFourPointsShape = function
     // calculate target
     var tx = x3 + x2 - fx, ty = y3 + y2 - fy;
 
-    this.drawTarget(x3, y3, tx, ty);
+    this.drawTarget(x3, y3, tx, ty, true);
 };
 
 //endregion

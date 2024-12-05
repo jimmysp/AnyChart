@@ -189,9 +189,10 @@ anychart.annotationsModule.PatternBase.prototype.ensureCreated = function() {
  * @param {number} ty1
  * @param {number} tx2
  * @param {number} ty2
+ * @param {boolean} clearPath When multiple targets, clear path only for the first target
  * @protected
  */
-anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1, tx2, ty2) {
+anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1, tx2, ty2, clearPath) {
     if (!this.shouldShowTarget) {
         return;
     }
@@ -207,19 +208,20 @@ anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1,
     var ax2 = Math.cos(Math.PI / -6) * (tx2 - axm) - Math.sin(Math.PI / -6) * (ty2 - aym);
     var ay2 = Math.sin(Math.PI / -6) * (tx2 - axm) + Math.cos(Math.PI / -6) * (ty2 - aym);
 
-    this.paths_[4].clear();
-
     for (var i = 3; i <= 4; i++) {
         // only trend stroke and hover paths
         var path = this.paths_[i];
 
+        if (clearPath) {
+            path.clear();
+        }
+
+        // arrow line
         path.moveTo(tx1, ty1).lineTo(tx2, ty2);
 
         // arrow tip
-        path.moveTo(tx2, ty2)
-            .lineTo(tx2 - ax1, ty2 - ay1);
-        path.moveTo(tx2, ty2)
-            .lineTo(tx2 - ax2, ty2 - ay2);
+        path.moveTo(tx2, ty2).lineTo(tx2 - ax1, ty2 - ay1);
+        path.moveTo(tx2, ty2).lineTo(tx2 - ax2, ty2 - ay2);
     }
 };
 

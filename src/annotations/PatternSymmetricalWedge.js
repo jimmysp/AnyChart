@@ -92,6 +92,10 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
         mirry2 = y3 - (y2 - py3);
     }
 
+    // calculate targets
+    var tx = x2 + (x2 - x3) / 2;
+    var midy = (y2 > mirry2) ? y2 - (y2 - mirry2) / 2 : y2 + (mirry2 - y2) / 2;
+
     for (var i = 0; i < this.paths_.length; i++) {
         // no fill paths
         if (i == 1 || i == 2) continue;
@@ -104,16 +108,16 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
         path.moveTo(x1, mirry1)
             .lineTo(x2, mirry2);
 
-        path.moveTo(x3, y3)
-            .lineTo(x3, py3);
+        // path.moveTo(x3, y3)
+        //    .lineTo(x3, py3);
+
+        // middle line
+        path.moveTo(x1, midy)
+            .lineTo(x2, midy);
     }
 
-    // calculate targets
-    var tx = x2 + (x2 - x3) / 2;
-    var midy = (y2 > mirry2) ? y2 - (y2 - mirry2) / 2 : y2 + (mirry2 - y2) / 2;
-
-    this.drawTarget(x2, midy, tx, midy + Math.abs(y3 - py3));
-    this.drawTarget(x2, midy, tx, midy - Math.abs(y3 - py3));
+    this.drawTarget(x2, midy, tx, midy - Math.abs(y3 - py3), true);
+    this.drawTarget(x2, midy, tx, midy + Math.abs(y3 - py3), false);
 };
 
 

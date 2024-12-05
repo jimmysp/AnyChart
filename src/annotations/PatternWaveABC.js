@@ -91,7 +91,7 @@ anychart.annotationsModule.PatternWaveABC.prototype.drawFourPointsShape = functi
     var tx = x4 + (x4 - x3);
     var ty = y2 > y3 ? y3 + (y2 - y3) / 2 : y2 + (y3 - y2) / 2;
 
-    this.drawTarget(x4, y4, tx, ty);
+    this.drawTarget(x4, y4, tx, ty, true);
 
     for (var i = 3; i <= 4; i++) {
         // only trend stroke and hover paths

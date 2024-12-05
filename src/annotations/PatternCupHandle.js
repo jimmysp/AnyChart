@@ -92,7 +92,7 @@ anychart.annotationsModule.PatternCupHandle.prototype.drawFourPointsShape = func
     // calculate target
     var tx = x4 + (x4 - x3) * 0.25, ty = y1 + (y1 - y2);
 
-    this.drawTarget(x4, y1, tx, ty);
+    this.drawTarget(x4, y1, tx, ty, true);
 };
 
 //endregion

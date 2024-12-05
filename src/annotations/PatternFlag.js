@@ -84,7 +84,7 @@ anychart.annotationsModule.PatternFlag.prototype.drawFourPointsShape = function(
     // calculate target
     var tx = x3 + fx4 - x1, ty = y3 + fy4 - y1;
 
-    this.drawTarget(x3, y3, tx, ty);
+    this.drawTarget(x3, y3, tx, ty, true);
 };
 
 //endregion
