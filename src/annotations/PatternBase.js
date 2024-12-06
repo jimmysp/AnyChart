@@ -209,10 +209,10 @@ anychart.annotationsModule.PatternBase.prototype.drawTarget = function(tx1, ty1,
     var ay2 = Math.sin(Math.PI / -6) * (tx2 - axm) + Math.cos(Math.PI / -6) * (ty2 - aym);
 
     for (var i = 3; i <= 4; i++) {
-        // only trend stroke and hover paths
+        // use trend stroke and hover paths
         var path = this.paths_[i];
 
-        if (clearPath) {
+        if (clearPath && i == 4) {
             path.clear();
         }
 
