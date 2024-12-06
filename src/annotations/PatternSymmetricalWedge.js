@@ -54,8 +54,8 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.SUPPORTED_ANCHORS =
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
     // constraints
-    x3 = Math.min(x2 - 1, x3);
     x2 = Math.max(x1 + 1, x3 + 1, x2);
+    x3 = Math.min(x2 - 1, x3);
 
     if (x3 < x1) {
         var tmpx1 = x3 - 1;
@@ -70,13 +70,6 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
 
         x1 = tmpx1;
         y1 = tmpy1;
-    }
-
-
-    if (y2 > y1) {
-        y3 = Math.max(y3, y2 + 1);
-    } else {
-        y3 = Math.min(y3, y2 - 1);
     }
 
     // project last point on the main line
