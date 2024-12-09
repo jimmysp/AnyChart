@@ -53,7 +53,7 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.SUPPORTED_ANCHORS =
 //----------------------------------------------------------------------------------------------------------------------
 
 /** @inheritDoc */
-anychart.annotationsModule.PatternBase.prototype.drawTwoPointsShape = function(x1, y1, x2, y2) {
+anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawTwoPointsShape = function(x1, y1, x2, y2) {
     // stroke only
     var path = this.paths_[0];
     path.clear();
