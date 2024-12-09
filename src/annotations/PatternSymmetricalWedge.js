@@ -51,6 +51,26 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.SUPPORTED_ANCHORS =
 //  Drawing
 //
 //----------------------------------------------------------------------------------------------------------------------
+
+/** @inheritDoc */
+anychart.annotationsModule.PatternBase.prototype.drawTwoPointsShape = function(x1, y1, x2, y2) {
+    // stroke only
+    var path = this.paths_[0];
+    path.clear();
+    path.moveTo(x1, y1).lineTo(x2, y2);
+
+    // draw helper for first line
+    var helperx = x1 - (x2 - x1);
+    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
+
+    path = this.paths_[4];
+
+    // helper line
+    path.clear();
+    path.moveTo(x1, y1).lineTo(helperx, helpery);
+};
+
+
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
     // constraints
@@ -111,6 +131,18 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
 
     this.drawTarget(x2, midy, tx, midy - Math.abs(y3 - py3), true);
     this.drawTarget(x2, midy, tx, midy + Math.abs(y3 - py3), false);
+
+    // draw helper for first line
+    var helperx = x1 - (x2 - x1);
+    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
+
+    for (var i = 3; i <= 4; i++) {
+        // use trend stroke and hover paths
+        var path = this.paths_[i];
+
+        // helper line
+        path.moveTo(x1, y1).lineTo(helperx, helpery);
+    }
 };
 
 
