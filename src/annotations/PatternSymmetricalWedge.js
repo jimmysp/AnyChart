@@ -54,25 +54,38 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.SUPPORTED_ANCHORS =
 
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawTwoPointsShape = function(x1, y1, x2, y2) {
-    this.drawThreePointsShape(x1, y1, x2, y2, x2, y2);
+    // stroke only
+    var path = this.paths_[0];
+    path.clear();
+    path.moveTo(x1, y1).lineTo(x2, y2);
+
+    // draw helper for first line
+    var helperx = x1 - (x2 - x1);
+    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
+
+    path = this.paths_[4];
+
+    // helper line
+    path.clear();
+    path.moveTo(x1, y1).lineTo(helperx, helpery);
 };
 
 
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
     // constraints
-    x3 = Math.max(x1 + 1, x2 + 1, x3);
-    x2 = Math.min(x3 - 1, x2);
+    x2 = Math.max(x1 + 1, x3 + 1, x2);
+    x3 = Math.min(x2 - 1, x3);
 
-    if (x2 < x1) {
-        var tmpx1 = x2 - 1;
-        var tmpy1 = y1 - (tmpx1 - x1) / (x3 - x1) * (y1 - y3);
+    if (x3 < x1) {
+        var tmpx1 = x3 - 1;
+        var tmpy1 = y1 - (tmpx1 - x1) / (x2 - x1) * (y1 - y2);
 
-        x2 = x1;
-        if (y3 > y1) {
-            y2 -= y1 - tmpy1;
+        x3 = x1;
+        if (y2 > y1) {
+            y3 -= y1 - tmpy1;
         } else {
-            y2 += tmpy1 - y1;
+            y3 += tmpy1 - y1;
         }
 
         x1 = tmpx1;
@@ -80,21 +93,21 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
     }
 
     // project last point on the main line
-    var py2 = y1 - (x2 - x1) / (x3 - x1) * (y1 - y3);
+    var py3 = y1 - (x3 - x1) / (x2 - x1) * (y1 - y2);
 
     // mirrored points
-    var mirry1, mirry3;
-    if (py2 > y2) {
-        mirry1 = y2 - (y1 - py2);
-        mirry3 = y2 + (py2 - y3);
+    var mirry1, mirry2;
+    if (py3 > y3) {
+        mirry1 = y3 - (y1 - py3);
+        mirry2 = y3 + (py3 - y2);
     } else {
-        mirry1 = y2 + (py2 - y1);
-        mirry3 = y2 - (y3 - py2);
+        mirry1 = y3 + (py3 - y1);
+        mirry2 = y3 - (y2 - py3);
     }
 
     // calculate targets
-    var tx = x3 + (x3 - x2) / 2;
-    var midy = (y3 > mirry3) ? y3 - (y3 - mirry3) / 2 : y3 + (mirry3 - y3) / 2;
+    var tx = x2 + (x2 - x3) / 2;
+    var midy = (y2 > mirry2) ? y2 - (y2 - mirry2) / 2 : y2 + (mirry2 - y2) / 2;
 
     for (var i = 0; i < this.paths_.length; i++) {
         // no fill paths
@@ -103,25 +116,25 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
 
         path.clear();
         path.moveTo(x1, y1)
-            .lineTo(x3, y3);
+            .lineTo(x2, y2);
 
         path.moveTo(x1, mirry1)
-            .lineTo(x3, mirry3);
+            .lineTo(x2, mirry2);
 
-        // path.moveTo(x2, y2)
-        //    .lineTo(x2, py2);
+        // path.moveTo(x3, y3)
+        //    .lineTo(x3, py3);
 
         // middle line
         path.moveTo(x1, midy)
-            .lineTo(x3, midy);
+            .lineTo(x2, midy);
     }
 
-    this.drawTarget(x3, midy, tx, midy - Math.abs(y2 - py2), true);
-    this.drawTarget(x3, midy, tx, midy + Math.abs(y2 - py2), false);
+    this.drawTarget(x2, midy, tx, midy - Math.abs(y3 - py3), true);
+    this.drawTarget(x2, midy, tx, midy + Math.abs(y3 - py3), false);
 
     // draw helper for first line
-    var helperx = x1 - (x3 - x1);
-    var helpery = y1 - (helperx - x1) / (x3 - x1) * (y1 - y3);
+    var helperx = x1 - (x2 - x1);
+    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
 
     for (var i = 3; i <= 4; i++) {
         // use trend stroke and hover paths
