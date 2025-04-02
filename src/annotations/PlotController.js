@@ -15,6 +15,7 @@ goog.require('anychart.annotationsModule.Marker');
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternPennant');
+goog.require('anychart.annotationsModule.PatternSymmetricalLines');
 goog.require('anychart.annotationsModule.PatternSymmetricalWedge');
 goog.require('anychart.annotationsModule.PatternTriangle');
 goog.require('anychart.annotationsModule.PatternWaveABC');
@@ -911,6 +912,20 @@ anychart.annotationsModule.PlotController.prototype.patternPennant = function(op
 
 
 /**
+ * Creates and returns a pattern-symmetrical-lines annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternSymmetricalLines}
+ */
+anychart.annotationsModule.PlotController.prototype.patternSymmetricalLines = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.PatternSymmetricalLines} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNSYMMETRICALLINES));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
  * Creates and returns a pattern-symmetrical-wedge annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternSymmetricalWedge}
@@ -1501,6 +1516,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['patternCupHandle'] = proto.patternCupHandle;
   proto['patternFlag'] = proto.patternFlag;
   proto['patternPennant'] = proto.patternPennant;
+  proto['patternSymmetricalLines'] = proto.patternSymmetricalLines;
   proto['patternSymmetricalWedge'] = proto.patternSymmetricalWedge;
   proto['patternTriangle'] = proto.patternTriangle;
   proto['patternWaveABC'] = proto.patternWaveABC;
