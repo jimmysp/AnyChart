@@ -79,12 +79,6 @@ anychart.annotationsModule.PatternSymmetricalLines.prototype.drawThreePointsShap
         var tmpy1 = y1 - (tmpx1 - x1) / (x2 - x1) * (y1 - y2);
 
         x3 = x1;
-        if (y2 > y1) {
-            y3 -= y1 - tmpy1;
-        } else {
-            y3 += tmpy1 - y1;
-        }
-
         x1 = tmpx1;
         y1 = tmpy1;
     }
