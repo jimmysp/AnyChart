@@ -70,6 +70,8 @@ anychart.annotationsModule.PatternSymmetricalLines.prototype.drawTwoPointsShape 
 
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalLines.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
+    var y1initial = y1;
+
     // constraints
     x2 = Math.max(x1 + 1, x3 + 1, x2);
     x3 = Math.min(x2 - 1, x3);
@@ -97,8 +99,8 @@ anychart.annotationsModule.PatternSymmetricalLines.prototype.drawThreePointsShap
     var tx = x2 + (x2 - x3) / 2;
 
     for (var i = 0; i < this.paths_.length; i++) {
-        // no fill paths
-        if (i == 1 || i == 2) continue;
+        // only stroke and hover paths
+        if (i != 0 && i != 3) continue;
         var path = this.paths_[i];
 
         path.clear();
@@ -112,9 +114,11 @@ anychart.annotationsModule.PatternSymmetricalLines.prototype.drawThreePointsShap
         path.moveTo(x1, y3)
             .lineTo(x2, y3);
     }
-
-    this.drawTarget(x2, y3, tx, y3 - Math.abs(y1 - y3), true);
-    this.drawTarget(x2, y3, tx, y3 + Math.abs(y1 - y3), false);
+    if (y1 < y3) {
+        this.drawTarget(x2, y3, tx, y3 - Math.abs(y1initial - y3) / 1.786, true);
+    } else {
+        this.drawTarget(x2, y3, tx, y3 + Math.abs(y1initial - y3) / 1.786, true);
+    }
 
     // draw helper for first line
     var helperx = x1 - (x2 - x1);
@@ -128,6 +132,5 @@ anychart.annotationsModule.PatternSymmetricalLines.prototype.drawThreePointsShap
         path.moveTo(x1, y1).lineTo(helperx, helpery);
     }
 };
-
 
 //endregion

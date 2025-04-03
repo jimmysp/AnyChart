@@ -110,8 +110,8 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
     var midy = (y2 > mirry2) ? y2 - (y2 - mirry2) / 2 : y2 + (mirry2 - y2) / 2;
 
     for (var i = 0; i < this.paths_.length; i++) {
-        // no fill paths
-        if (i == 1 || i == 2) continue;
+        // only stroke and hover paths
+        if (i != 0 && i != 3) continue;
         var path = this.paths_[i];
 
         path.clear();
