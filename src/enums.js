@@ -4928,6 +4928,7 @@ anychart.enums.AnnotationTypes = {
   TREND_CHANNEL: 'trend-channel',
   PATTERNCUPHANDLE: 'pattern-cup-handle',
   PATTERNFLAG: 'pattern-flag',
+  PATTERNMEDIANWEDGE: 'pattern-median-wedge',
   PATTERNPENNANT: 'pattern-pennant',
   PATTERNSYMMETRICALLINES: 'pattern-symmetrical-lines',
   PATTERNSYMMETRICALWEDGE: 'pattern-symmetrical-wedge',
