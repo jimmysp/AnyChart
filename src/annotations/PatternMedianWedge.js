@@ -166,22 +166,6 @@ anychart.annotationsModule.PatternMedianWedge.prototype.drawFourPointsShape = fu
                 .lineTo(px, py);
         }
     }
-
-    // draw helper for first line
-    var helperx = x1 - (x2 - x1);
-    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
-
-    for (var i = 3; i <= 4; i++) {
-        // use trend stroke and hover paths
-        var path = this.paths_[i];
-
-        if (i == 4) {
-            path.clear();
-        }
-
-        // helper line
-        path.moveTo(x1, y1).lineTo(helperx, helpery);
-    }
 };
 //endregion
 
