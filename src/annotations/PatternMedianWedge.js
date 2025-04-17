@@ -87,16 +87,6 @@ anychart.annotationsModule.PatternMedianWedge.prototype.drawTwoPointsShape = fun
     var path = this.paths_[0];
     path.clear();
     path.moveTo(x1, y1).lineTo(x2, y2);
-
-    // draw helper for first line
-    var helperx = x1 - (x2 - x1);
-    var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
-
-    path = this.paths_[4];
-
-    // helper line
-    path.clear();
-    path.moveTo(x1, y1).lineTo(helperx, helpery);
 };
 
 
