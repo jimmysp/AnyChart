@@ -70,26 +70,35 @@ anychart.annotationsModule.PatternTriangle.prototype.drawFourPointsShape = funct
     // triangle second point
     var p2 = anychart.math.intersectInfiniteLineLine(x1, y1, x1, y2, x2, y2, px, py);
 
-    // stroke
-    var path = this.paths_[0];
-    path.clear();
-    path.moveTo(x1, y1)
+    for (var i = 0; i < this.paths_.length; i++) {
+        // only stroke and hover paths
+        if (i != 0 && i != 3) continue;
+
+        var path = this.paths_[i];
+        path.clear();
+
+        // triangle shape
+        path.moveTo(x1, y1)
+            .lineTo(px, py)
+            .lineTo(p2 ? p2.x : x2, p2 ? p2.y : y2);
+    }
+
+    for (var i = 3; i <= 4; i++) {
+        // only trend stroke and hover paths
+        var path = this.paths_[i];
+        if (i == 4) {
+            path.clear();
+        }
+
+        // triangle markers
+        path.moveTo(x1, y1)
         .lineTo(x2, y2)
         .lineTo(x3, y3)
         .lineTo(x4, y4);
-
-    for (var i = 1; i < this.paths_.length; i++) {
-        // triangle shape
-        path = this.paths_[i];
-        path.clear();
-        path.moveTo(x1, y1)
-            .lineTo(px, py)
-            .lineTo(p2 ? p2.x : x2, p2 ? p2.y : y2)
-            .close();
     }
 
     // can calculate target(s)
-    if (px > x4) {
+    /*if (px > x4) {
 
         var height = Math.abs((p2 ? p2.y : y2) - y1),
             lowest = Math.min(y1, p2 ? p2.y : y2);
@@ -106,7 +115,7 @@ anychart.annotationsModule.PatternTriangle.prototype.drawFourPointsShape = funct
             var tx = px + Math.abs(x2 - x1), ty = py - Math.abs(y2 - y1);
             this.drawTarget(px, py, tx, ty, true);
         }
-        // symmetrical or undiceded, show two targets
+        // symmetrical or undecided, show two targets
         else {
             // calculate target
             var tx = px + Math.abs(x2 - x1), ty = py + Math.abs(y2 - y1);
@@ -115,8 +124,15 @@ anychart.annotationsModule.PatternTriangle.prototype.drawFourPointsShape = funct
             ty = py - Math.abs(y2 - y1);
             this.drawTarget(px, py, tx, ty, false);
         }
-    }
+    }*/
 };
 
 
+/** @inheritDoc */
+anychart.annotationsModule.PatternTriangle.prototype.colorize = function(state) {
+    anychart.annotationsModule.PatternTriangle.base(this, 'colorize', state);
+
+    // no fill for hover path
+    this.paths_[3].fill(null);
+  };
 //endregion

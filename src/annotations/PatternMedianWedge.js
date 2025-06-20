@@ -22,13 +22,13 @@ anychart.annotationsModule.PatternMedianWedge = function(chartController) {
 
   anychart.core.settings.createDescriptorsMeta(this.descriptorsMeta, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS_META);
 
-  /**
+  /* *
    * This is a flag that is setup in labels invalidation processing and that means that the labels should be redrawn
    * after processing
    * @type {number}
    * @protected
    */
-  this.ratio = 1.786;
+//   this.ratio = 1.786;
 };
 goog.inherits(anychart.annotationsModule.PatternMedianWedge, anychart.annotationsModule.PatternBase);
 anychart.core.settings.populate(anychart.annotationsModule.PatternMedianWedge, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS);
@@ -40,21 +40,21 @@ anychart.annotationsModule.AnnotationTypes[anychart.enums.AnnotationTypes.PATTER
  * @param {number} ratio
  * @return {Array.<number>|anychart.annotationsModule.PatternMedianWedge}
  */
-anychart.annotationsModule.PatternMedianWedge.prototype.setRatio = function(ratio) {
+/*anychart.annotationsModule.PatternMedianWedge.prototype.setRatio = function(ratio) {
     this.ratio = ratio;
     this.invalidate(anychart.ConsistencyState.ANNOTATIONS_LAST_POINT);
     this.draw();
     return this;
-  };
+  };*/
 
 /**
  * Get ratio
  * @return {number}
  */
-anychart.annotationsModule.PatternMedianWedge.prototype.getRatio = function() {
+/*anychart.annotationsModule.PatternMedianWedge.prototype.getRatio = function() {
     return this.ratio;
   };
-
+*/
 
 //region Properties
 //----------------------------------------------------------------------------------------------------------------------
@@ -103,20 +103,20 @@ anychart.annotationsModule.PatternMedianWedge.prototype.drawFourPointsShape = fu
     // constraints
     x1 = Math.min(x1, x2 - 1);
     x3 = Math.min(x3, x4 - 1);
-    var midx = null, midy = null;
+    // var midx = null, midy = null;
 
     if (x3 < x1) {
         // project x3 on line
         y1 = y1 - (x3 - x1) / (x2 - x1) * (y1 - y2);
         x1 = x3;
-        midx = x3;
+        // midx = x3;
     } else {
         // project x1 on line
         y3 = y3 - (x1 - x3) / (x4 - x3) * (y3 - y4);
         x3 = x1;
-        midx = x1;
+        // midx = x1;
     }
-    midy = y1 + (y3 - y1) / this.ratio;
+    // midy = y1 + (y3 - y1) / this.ratio;
 
     // triangle tip point
     var px = null, py = null;
@@ -151,10 +151,10 @@ anychart.annotationsModule.PatternMedianWedge.prototype.drawFourPointsShape = fu
                 .lineTo(x4, y4);
         }
 
-        if (px && py && midx < px) {
+        /*if (px && py && midx < px) {
             path.moveTo(midx, midy)
                 .lineTo(px, py);
-        }
+        }*/
     }
 };
 //endregion
@@ -166,15 +166,16 @@ anychart.annotationsModule.PatternMedianWedge.prototype.drawFourPointsShape = fu
 //
 //----------------------------------------------------------------------------------------------------------------------
 /** @inheritDoc */
-anychart.annotationsModule.PatternMedianWedge.prototype.disposeInternal = function() {
+/*anychart.annotationsModule.PatternMedianWedge.prototype.disposeInternal = function() {
     anychart.annotationsModule.PatternMedianWedge.base(this, 'disposeInternal');
 
-    delete this.ratio;
+    // delete this.ratio;
   };
 //endregion
 //export
 (function() {
     var proto = anychart.annotationsModule.PatternMedianWedge.prototype;
-    proto['getRatio'] = proto.getRatio;
-    proto['setRatio'] = proto.setRatio;
+    // proto['getRatio'] = proto.getRatio;
+    // proto['setRatio'] = proto.setRatio;
   })();
+*/
