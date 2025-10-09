@@ -95,6 +95,8 @@ anychart.annotationsModule.Base = function(chartController) {
   this.coords['thirdValueAnchor'] = NaN;
   this.coords['fourthXAnchor'] = NaN;
   this.coords['fourthValueAnchor'] = NaN;
+  this.coords['fifthXAnchor'] = NaN;
+  this.coords['fifthValueAnchor'] = NaN;
 
   /**
    * Secured coords for dragging.
@@ -544,8 +546,11 @@ anychart.annotationsModule.Base.prototype.moveAnchor = function(anchorId, dx, dy
           if (!!(this.SUPPORTED_ANCHORS & anychart.annotationsModule.AnchorSupport.THREE_POINTS)) {
             this.moveAnchor_('thirdXAnchor', 'thirdValueAnchor', dx, dy);
             if (!!(this.SUPPORTED_ANCHORS & anychart.annotationsModule.AnchorSupport.FOUR_POINTS)) {
-                this.moveAnchor_('fourthXAnchor', 'fourthValueAnchor', dx, dy);
+              this.moveAnchor_('fourthXAnchor', 'fourthValueAnchor', dx, dy);
+              if (!!(this.SUPPORTED_ANCHORS & anychart.annotationsModule.AnchorSupport.FIVE_POINTS)) {
+                this.moveAnchor_('fifthXAnchor', 'fifthValueAnchor', dx, dy);
               }
+            }
           }
         }
       }
@@ -564,6 +569,9 @@ anychart.annotationsModule.Base.prototype.moveAnchor = function(anchorId, dx, dy
       break;
     case 3:
       this.moveAnchor_('fourthXAnchor', 'fourthValueAnchor', dx, dy);
+      break;
+    case 4:
+      this.moveAnchor_('fifthXAnchor', 'fifthValueAnchor', dx, dy);
       break;
   }
   this.invalidate(anychart.ConsistencyState.ANNOTATIONS_SHAPES | anychart.ConsistencyState.ANNOTATIONS_MARKERS);
@@ -642,8 +650,8 @@ anychart.annotationsModule.Base.prototype.calculate = function() {
     yScale = this.yScale();
     if (!xScale || !yScale) return false;
 
-    var firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY;
-    firstX = firstY = secondX = secondY = thirdX = thirdY = fourthX = fourthY = NaN;
+    var firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY, fifthX, fifthY;
+    firstX = firstY = secondX = secondY = thirdX = thirdY = fourthX = fourthY = fifthX = fifthY = NaN;
     var availableCoords = 0;
     var missingCoords = 0;
     if (!!(this.SUPPORTED_ANCHORS & anychart.annotationsModule.AnchorSupport.X)) {
@@ -684,6 +692,14 @@ anychart.annotationsModule.Base.prototype.calculate = function() {
       else
         availableCoords |= anychart.annotationsModule.AnchorSupport.FOURTH_POINT;
     }
+    if (!!(this.SUPPORTED_ANCHORS & anychart.annotationsModule.AnchorSupport.FIFTH_POINT)) {
+      fifthX = this.xRatioToPix(xScale.transform(this.getOwnOption('fifthXAnchor'), 0.5));
+      fifthY = this.yRatioToPix(yScale.transform(this.getOwnOption('fifthValueAnchor'), 0.5));
+      if (isNaN(fifthX) || isNaN(fifthY))
+        missingCoords |= anychart.annotationsModule.AnchorSupport.FIFTH_POINT;
+      else
+        availableCoords |= anychart.annotationsModule.AnchorSupport.FIFTH_POINT;
+    }
 
     // we allow dragging draw if we are missing more than two points
     var dragDrawingAvailable = false;
@@ -707,6 +723,10 @@ anychart.annotationsModule.Base.prototype.calculate = function() {
       lastPointXName = 'fourthXAnchor';
       lastPointYName = 'fourthValueAnchor';
       this.lastPointAnchor = anychart.annotationsModule.AnchorSupport.FOURTH_POINT;
+    } else if (!!(missingCoords & anychart.annotationsModule.AnchorSupport.FIFTH_POINT)) {
+      lastPointXName = 'fifthXAnchor';
+      lastPointYName = 'fifthValueAnchor';
+      this.lastPointAnchor = anychart.annotationsModule.AnchorSupport.FIFTH_POINT;
     } else {
       this.lastPointAnchor = anychart.annotationsModule.AnchorSupport.NONE;
     }
@@ -719,6 +739,8 @@ anychart.annotationsModule.Base.prototype.calculate = function() {
     this.coords['thirdValueAnchor'] = thirdY;
     this.coords['fourthXAnchor'] = fourthX;
     this.coords['fourthValueAnchor'] = fourthY;
+    this.coords['fifthXAnchor'] = fifthX;
+    this.coords['fifthValueAnchor'] = fifthY;
 
     this.anchorsAvailable = availableCoords;
     this.lastPointXName = lastPointXName;
@@ -773,6 +795,7 @@ anychart.annotationsModule.Base.prototype.checkVisible = function() {
     coords.push(this.coords['secondXAnchor']);
     coords.push(this.coords['thirdXAnchor']);
     coords.push(this.coords['fourthXAnchor']);
+    coords.push(this.coords['fifthXAnchor']);
     var allLeft = true;
     var allRight = true;
     for (var i = 0; i < coords.length; i++) {
@@ -844,7 +867,20 @@ anychart.annotationsModule.Base.prototype.draw = function() {
 
   if (this.hasInvalidationState(anychart.ConsistencyState.ANNOTATIONS_SHAPES)) {
     if (visible) {
-      if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FOUR_POINTS &&
+      if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FIVE_POINTS &&
+          this.anchorsWithLastPoint == anychart.annotationsModule.AnchorSupport.FIVE_POINTS) {
+        this.drawFivePointsShape(
+            this.coords['xAnchor'],
+            this.coords['valueAnchor'],
+            this.coords['secondXAnchor'],
+            this.coords['secondValueAnchor'],
+            this.coords['thirdXAnchor'],
+            this.coords['thirdValueAnchor'],
+            this.coords['fourthXAnchor'],
+            this.coords['fourthValueAnchor'],
+            this.coords['fifthXAnchor'],
+            this.coords['fifthValueAnchor']);
+      } else if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FOUR_POINTS &&
           this.anchorsWithLastPoint == anychart.annotationsModule.AnchorSupport.FOUR_POINTS) {
         this.drawFourPointsShape(
             this.coords['xAnchor'],
@@ -1026,6 +1062,31 @@ anychart.annotationsModule.Base.prototype.drawThreePointsShape = function(firstX
 anychart.annotationsModule.Base.prototype.drawFourPointsShape = function(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY) {
   // this is a fallback for an unimplemented case.
   this.drawThreePointsShape(firstX, firstY, secondX, secondY, thirdX, thirdY);
+};
+
+/**
+ * Draws current annotation with five point defined.
+ * @param {number} firstX
+ * @param {number} firstY
+ * @param {number} secondX
+ * @param {number} secondY
+ * @param {number} thirdX
+ * @param {number} thirdY
+ * @param {number} fourthX
+ * @param {number} fourthY
+ * @param {number} fifthX
+ * @param {number} fifthY
+ * @protected
+ */
+anychart.annotationsModule.Base.prototype.drawFivePointsShape = function(
+    firstX, firstY,
+    secondX, secondY,
+    thirdX, thirdY,
+    fourthX, fourthY,
+    fifthX, fifthY
+  ) {
+  // this is a fallback for an unimplemented case.
+  this.drawFourPointsShape(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY);
 };
 
 
@@ -1283,6 +1344,9 @@ anychart.annotationsModule.Base.prototype.createPositionProviders = function() {
         res.push({'x': this.coords['thirdXAnchor'], 'y': this.coords['thirdValueAnchor']});
         if (!!(this.SUPPORTED_ANCHORS & this.anchorsWithLastPoint & anychart.annotationsModule.AnchorSupport.FOURTH_POINT)) {
           res.push({'x': this.coords['fourthXAnchor'], 'y': this.coords['fourthValueAnchor']});
+          if (!!(this.SUPPORTED_ANCHORS & this.anchorsWithLastPoint & anychart.annotationsModule.AnchorSupport.FIFTH_POINT)) {
+            res.push({'x': this.coords['fifthXAnchor'], 'y': this.coords['fifthValueAnchor']});
+          }
         }
       }
     }

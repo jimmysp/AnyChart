@@ -273,6 +273,12 @@ anychart.annotationsModule.PatternBase.prototype.serialize = function() {
         anychart.core.settings.serialize(this, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS, json, 'Annotation');
     }
 
+    // for 5 points patterns
+    if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FIVE_POINTS) {
+        anychart.core.settings.serialize(this, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS, json, 'Annotation');
+        anychart.core.settings.serialize(this, anychart.annotationsModule.FIFTH_ANCHOR_POINT_DESCRIPTORS, json, 'Annotation');
+    }
+
     return json;
   };
 
@@ -289,6 +295,12 @@ anychart.annotationsModule.PatternBase.prototype.serialize = function() {
     // for 4 points patterns
     if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FOUR_POINTS) {
         anychart.core.settings.deserialize(this, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS, config);
+    }
+
+    // for 5 points patterns
+    if (this.SUPPORTED_ANCHORS == anychart.annotationsModule.AnchorSupport.FIVE_POINTS) {
+        anychart.core.settings.deserialize(this, anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS, config);
+        anychart.core.settings.deserialize(this, anychart.annotationsModule.FIFTH_ANCHOR_POINT_DESCRIPTORS, config);
     }
   };
 

@@ -34,10 +34,12 @@ anychart.annotationsModule.AnchorSupport = {
   SECOND_POINT: 4,
   THIRD_POINT: 8,
   FOURTH_POINT: 16,
+  FIFTH_POINT: 32,
   ONE_POINT: 3,
   TWO_POINTS: 7,
   THREE_POINTS: 15,
-  FOUR_POINTS: 31
+  FOUR_POINTS: 31,
+  FIVE_POINTS: 63
 };
 
 
@@ -61,6 +63,8 @@ anychart.annotationsModule.AnnotationTypes = {};
  *    thirdValueAnchor: number,
  *    fourthXAnchor: number,
  *    fourthValueAnchor: number,
+ *    fifthXAnchor: number,
+ *    fifthValueAnchor: number,
  *    stroke: (acgraph.vector.Stroke|Function),
  *    trend: (acgraph.vector.Stroke|Function),
  *    grid: (acgraph.vector.Stroke|Function),
@@ -271,7 +275,6 @@ anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS = (function() {
   return map;
 })();
 
-
 /**
  * Properties meta.
  * @type {!Array.<Array>}
@@ -283,6 +286,39 @@ anychart.annotationsModule.FOURTH_ANCHOR_POINT_DESCRIPTORS_META = (function() {
   ];
 })();
 
+
+/**
+ * Properties that should be defined in annotation prototype to support fifth anchor point.
+ * @type {!Object.<string, anychart.core.settings.PropertyDescriptor>}
+ */
+anychart.annotationsModule.FIFTH_ANCHOR_POINT_DESCRIPTORS = (function() {
+  /** @type {!Object.<string, anychart.core.settings.PropertyDescriptor>} */
+  var map = {};
+  anychart.core.settings.createDescriptor(
+      map,
+      anychart.enums.PropertyHandlerType.SINGLE_ARG,
+      'fifthXAnchor',
+      anychart.core.settings.asIsNormalizer);
+
+  anychart.core.settings.createDescriptor(
+      map,
+      anychart.enums.PropertyHandlerType.SINGLE_ARG,
+      'fifthValueAnchor',
+      anychart.core.settings.asIsNormalizer);
+
+  return map;
+})();
+
+/**
+ * Properties meta.
+ * @type {!Array.<Array>}
+ */
+anychart.annotationsModule.FIFTH_ANCHOR_POINT_DESCRIPTORS_META = (function() {
+  return [
+    ['fifthXAnchor', anychart.ConsistencyState.ANNOTATIONS_ANCHORS | anychart.ConsistencyState.ANNOTATIONS_LAST_POINT, anychart.Signal.NEEDS_REDRAW],
+    ['fifthValueAnchor', anychart.ConsistencyState.ANNOTATIONS_ANCHORS | anychart.ConsistencyState.ANNOTATIONS_LAST_POINT, anychart.Signal.NEEDS_REDRAW]
+  ];
+})();
 
 /**
  * Properties that should be defined in annotation prototype to support marker annotation settings.

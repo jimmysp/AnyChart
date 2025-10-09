@@ -1403,6 +1403,7 @@ anychart.annotationsModule.PlotController.AnchorDragger = function(plotControlle
    *   1 - moving second annotation anchor;
    *   2 - moving third annotation anchor;
    *   3 - moving fourth annotation anchor;
+   *   4 - moving fifth annotation anchor;
    * @type {number}
    * @private
    */
