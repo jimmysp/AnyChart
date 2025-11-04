@@ -47,8 +47,8 @@ anychart.annotationsModule.FibonacciRetracement.prototype.drawLevel = function(l
   var y = anychart.utils.applyPixelShift(y2 + baseHeight * levelRatio, strokeThickness);
   var line = anychart.math.clipRayByRect(sx, y, sx + 10, y, this.pixelBoundsCache);
   if (line) {
-    path.moveTo(line[0], line[1]).lineTo(line[2], line[3]);
-    hoverPath.moveTo(line[0], line[1]).lineTo(line[2], line[3]);
+    path.moveTo(x1, line[1]).lineTo(x2, line[3]);
+    hoverPath.moveTo(x1, line[1]).lineTo(x2, line[3]);
   }
 
   if (drawLabels) {
