@@ -60,14 +60,14 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawTwoPointsShape 
     path.moveTo(x1, y1).lineTo(x2, y2);
 
     // draw helper for first line
-    var helperx = x1 - (x2 - x1);
+    /*var helperx = x1 - (x2 - x1);
     var helpery = y1 - (helperx - x1) / (x2 - x1) * (y1 - y2);
 
     path = this.paths_[4];
 
     // helper line
     path.clear();
-    path.moveTo(x1, y1).lineTo(helperx, helpery);
+    path.moveTo(x1, y1).lineTo(helperx, helpery);*/
 };
 
 
@@ -104,7 +104,7 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
         // mirry1 = y3 + (py3 - y1);
         y4 = y3 - (y2 - py3);
     }
-    
+
     // constraints
     x1 = Math.min(x1, x2 - 1);
     x3 = Math.min(x3, x4 - 1);
