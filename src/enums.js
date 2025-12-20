@@ -4929,6 +4929,7 @@ anychart.enums.AnnotationTypes = {
   PATTERNCUPHANDLE: 'pattern-cup-handle',
   PATTERNFLAG: 'pattern-flag',
   PATTERNMEDIANWEDGE: 'pattern-median-wedge',
+  PATTERNRATIOTRIANGLE: 'pattern-ratio-triangle',
   PATTERNRATIOWEDGE: 'pattern-ratio-wedge',
   PATTERNPENNANT: 'pattern-pennant',
   PATTERNSYMMETRICALLINES: 'pattern-symmetrical-lines',
