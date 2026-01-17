@@ -139,6 +139,10 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
         py = point.y;
     }
 
+    // shorten projected start point
+    var pxStart = xStart + (xTop - xStart) / 2;
+        pyStart = pyStart + (yTop - pyStart) / 2;
+
     for (var i = 0; i < this.paths_.length; i++) {
         // only stroke and hover paths
         if (i != 0 && i != 3) continue;
@@ -151,7 +155,7 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
             path.moveTo(xStart, yStart)
                 .lineTo(px, py);
 
-            path.moveTo(xStart, pyStart)
+            path.moveTo(pxStart, pyStart)
                 .lineTo(px, py);
         }
     }
