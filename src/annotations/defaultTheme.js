@@ -224,6 +224,10 @@ goog.mixin(goog.global['anychart']['themes']['defaultTheme']['chart'], {
         }
       }
     },
+    'profileBars': {
+      'barsData': {},
+      'showTrend': true,
+    },
     'horizontalRange': {},
     'verticalRange': {}
   }

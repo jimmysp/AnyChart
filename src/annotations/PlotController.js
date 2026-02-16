@@ -25,6 +25,7 @@ goog.require('anychart.annotationsModule.PatternWaveABC');
 goog.require('anychart.annotationsModule.PatternWedge');
 goog.require('anychart.annotationsModule.Pitchfork');
 goog.require('anychart.annotationsModule.Position');
+goog.require('anychart.annotationsModule.ProfileBars');
 goog.require('anychart.annotationsModule.Ray');
 goog.require('anychart.annotationsModule.Rectangle');
 goog.require('anychart.annotationsModule.ThreeLineCross');
@@ -782,6 +783,20 @@ anychart.annotationsModule.PlotController.prototype.line = function(opt_config) 
 anychart.annotationsModule.PlotController.prototype.infiniteLine = function(opt_config) {
   var annotation = /** @type {anychart.annotationsModule.InfiniteLine} */(
       this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.INFINITE_LINE));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
+ * Creates and returns a ProfileBars annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.ProfileBars}
+ */
+anychart.annotationsModule.PlotController.prototype.profileBars = function(opt_config) {
+  var annotation = /** @type {anychart.annotationsModule.ProfileBars} */(
+      this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PROFILE_BARS));
   annotation.setup(opt_config);
   this.bindAnnotation(annotation, true);
   return annotation;
@@ -1553,6 +1568,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['ray'] = proto.ray;
   proto['line'] = proto.line;
   proto['infiniteLine'] = proto.infiniteLine;
+  proto['profileBars'] = proto.profileBars;
   proto['verticalLine'] = proto.verticalLine;
   proto['verticalRange'] = proto.verticalRange;
   proto['horizontalLine'] = proto.horizontalLine;
