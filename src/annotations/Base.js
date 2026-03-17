@@ -1397,10 +1397,23 @@ anychart.annotationsModule.Base.prototype.hasData = function(name) {
 
 /**
  * Returns data value by name.
- * @param {string} name
+ * Ignore all data where name starting with '__'
+ *
+ * @param {?string} name
  * @return {*}
  */
 anychart.annotationsModule.Base.prototype.getData = function(name) {
+  if (!name) {
+    var data = {};
+    for (var k in this.data) {
+      // skip protected data
+      if (k.substring(0, 2) == '__') continue;
+
+      data[k] = this.data[k];
+    }
+
+    return data;
+  }
   return this.data[name];
 };
 
