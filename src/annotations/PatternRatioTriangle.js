@@ -75,24 +75,35 @@ anychart.annotationsModule.PatternRatioTriangle.prototype.drawTwoPointsShape = f
 
 /** @inheritDoc */
 anychart.annotationsModule.PatternRatioTriangle.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
-    var x1initial = x1, x3initial = x3;
 
-    // constraints
-    x1 = Math.min(x1, x2 - 1);
-    x3 = Math.min(x3, x2 - 1);
-    // var midx = null, midy = null;
+    var pointsByTime = [
+        {x: x1, y: y1},
+        {x: x2, y: y2},
+        {x: x3, y: y3}
+    ];
 
-    if (x3 < x1) {
+    // sort points
+    pointsByTime.sort( function(a,b) { return a.x - b.x; } );
+
+    x1 = pointsByTime[0].x;
+    y1 = pointsByTime[0].y;
+    x2 = pointsByTime[1].x;
+    y2 = pointsByTime[1].y;
+    x3 = pointsByTime[2].x;
+    y3 = pointsByTime[2].y;
+
+
+    /*if (x3 < x1) {
         // project x3 on line
         y1 = y1 - (x3 - x1) / (x2 - x1) * (y1 - y2);
         x1 = x3;
         // midx = x3;
-    } else {
+    } else {*/
         // project x1 on line
-        y3 = y3 - (x1 - x3) / (x2 - x3) * (y3 - y2);
-        x3 = x1;
+        // y3 = y3 - (x1 - x3) / (x2 - x3) * (y3 - y2);
+        // x3 = x1;
         // midx = x1;
-    }
+    // }
     // midy = y1 + (y3 - y1) / this.ratio;
 
     for (var i = 0; i < this.paths_.length; i++) {
@@ -102,12 +113,12 @@ anychart.annotationsModule.PatternRatioTriangle.prototype.drawThreePointsShape =
 
         path.clear();
 
-        // first wedge line
+        // wedge lines
         path.moveTo(x1, y1)
             .lineTo(x2, y2);
 
-        path.moveTo(x1, y3)
-            .lineTo(x2, y2);
+        path.moveTo(x2, y2)
+            .lineTo(x3, y3);
 
     }
 };
