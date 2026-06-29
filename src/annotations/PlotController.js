@@ -13,6 +13,7 @@ goog.require('anychart.annotationsModule.Label');
 goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
 goog.require('anychart.annotationsModule.PatternCupHandle');
+goog.require('anychart.annotationsModule.PatternFibonacciTriangle');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternMedianWedge');
 goog.require('anychart.annotationsModule.PatternPennant');
@@ -942,6 +943,19 @@ anychart.annotationsModule.PlotController.prototype.patternRatioTriangle = funct
   return annotation;
 };
 
+/**
+ * Creates and returns a pattern-fibonacci-triangle annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternFibonacciTriangle}
+ */
+anychart.annotationsModule.PlotController.prototype.patternFibonacciTriangle = function(opt_config) {
+    var annotation = /** @type {anychart.annotationsModule.PatternFibonacciTriangle} */(
+        this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNFIBONACCITRIANGLE));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
 
 /**
  * Creates and returns a pattern-ratio-wedge annotation.
@@ -1579,6 +1593,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['patternFlag'] = proto.patternFlag;
   proto['patternMedianWedge'] = proto.patternMedianWedge;
   proto['patternRatioTriangle'] = proto.patternRatioTriangle;
+  proto['patternFibonacciTriangle'] = proto.patternFibonacciTriangle;
   proto['patternRatioWedge'] = proto.patternRatioWedge;
   proto['patternPennant'] = proto.patternPennant;
   proto['patternSymmetricalLines'] = proto.patternSymmetricalLines;
