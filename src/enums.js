@@ -4931,6 +4931,7 @@ anychart.enums.AnnotationTypes = {
   PATTERNMEDIANWEDGE: 'pattern-median-wedge',
   PATTERNRATIOTRIANGLE: 'pattern-ratio-triangle',
   PATTERNFIBONACCITRIANGLE: 'pattern-fibonacci-triangle',
+  PATTERNFIBONACCITRIANGLEEXT: 'pattern-fibonacci-triangle-ext',
   PATTERNRATIOWEDGE: 'pattern-ratio-wedge',
   PATTERNPENNANT: 'pattern-pennant',
   PATTERNSYMMETRICALLINES: 'pattern-symmetrical-lines',

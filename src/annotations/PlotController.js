@@ -14,6 +14,7 @@ goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFibonacciTriangle');
+goog.require('anychart.annotationsModule.PatternFibonacciTriangleExt');
 goog.require('anychart.annotationsModule.PatternFlag');
 goog.require('anychart.annotationsModule.PatternMedianWedge');
 goog.require('anychart.annotationsModule.PatternPennant');
@@ -943,6 +944,7 @@ anychart.annotationsModule.PlotController.prototype.patternRatioTriangle = funct
   return annotation;
 };
 
+
 /**
  * Creates and returns a pattern-fibonacci-triangle annotation.
  * @param {Object=} opt_config
@@ -951,6 +953,20 @@ anychart.annotationsModule.PlotController.prototype.patternRatioTriangle = funct
 anychart.annotationsModule.PlotController.prototype.patternFibonacciTriangle = function(opt_config) {
     var annotation = /** @type {anychart.annotationsModule.PatternFibonacciTriangle} */(
         this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNFIBONACCITRIANGLE));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
+ * Creates and returns a pattern-fibonacci-triangle-ext annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternFibonacciTriangleExt}
+ */
+anychart.annotationsModule.PlotController.prototype.patternFibonacciTriangleExt = function(opt_config) {
+    var annotation = /** @type {anychart.annotationsModule.PatternFibonacciTriangleExt} */(
+        this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNFIBONACCITRIANGLEEXT));
   annotation.setup(opt_config);
   this.bindAnnotation(annotation, true);
   return annotation;
@@ -1594,6 +1610,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['patternMedianWedge'] = proto.patternMedianWedge;
   proto['patternRatioTriangle'] = proto.patternRatioTriangle;
   proto['patternFibonacciTriangle'] = proto.patternFibonacciTriangle;
+  proto['patternFibonacciTriangleExt'] = proto.patternFibonacciTriangleExt;
   proto['patternRatioWedge'] = proto.patternRatioWedge;
   proto['patternPennant'] = proto.patternPennant;
   proto['patternSymmetricalLines'] = proto.patternSymmetricalLines;
