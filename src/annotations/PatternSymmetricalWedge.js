@@ -74,80 +74,55 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawTwoPointsShape 
 /** @inheritDoc */
 anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShape = function(x1, y1, x2, y2, x3, y3) {
     // arrange points
-    var yStart, xStart, yTop, xTop, yPullback, xPullback;
+    var y1Line, x1Line, yStart, xStart, y2Line, x2Line;
 
-    if (x1 < x3 && x1 < x2) {
-        yStart = y1;
-        xStart = x1;
-        if (x2 < x3) {
-            yTop = y2;
-            xTop = x2;
-            yPullback = y3;
-            xPullback = x3;
-        } else {
-            yTop = y3;
-            xTop = x3;
-            yPullback = y2;
-            xPullback = x2;
-        }
-    } else if (x2 < x3 && x2 < x1) {
-        yStart = y2;
-        xStart = x2;
-        if (x1 < x3) {
-            yTop = y1;
-            xTop = x1;
-            yPullback = y3;
-            xPullback = x3;
-        } else {
-            yTop = y3;
-            xTop = x3;
-            yPullback = y1;
-            xPullback = x1;
-        }
-    } else { // (x3 < x1 && x3 < x2)
-        yStart = y3;
-        xStart = x3;
-        if (x1 < x2) {
-            yTop = y1;
-            xTop = x1;
-            yPullback = y2;
-            xPullback = x2;
-        } else {
-            yTop = y2;
-            xTop = x2;
-            yPullback = y1;
-            xPullback = x1;
-        }
-    }
+    var pointsByTime = [
+        {x: x1, y: y1},
+        {x: x2, y: y2},
+        {x: x3, y: y3}
+    ];
+
+    // sort points
+    pointsByTime.sort( function(a,b) { return a.x - b.x; } );
+
+    xStart = pointsByTime[0].x;
+    yStart = pointsByTime[0].y;
+    x1Line = pointsByTime[1].x;
+    y1Line = pointsByTime[1].y;
+    x2Line = pointsByTime[2].x;
+    y2Line = pointsByTime[2].y;
+
 
     // project top point on the wedge line
-    var pyTop = yStart - (xTop - xStart) / (xPullback - xStart) * (yStart - yPullback);
+    var pyStart = y1Line - (xStart - x1Line) / (x2Line - x1Line) * (y1Line - y2Line);
 
     // symmetry line
-    var ySymm = yTop - (yTop - pyTop) / 2;
+    var ySymm = yStart - (yStart - pyStart) / 2;
 
     // mirrored points
-    var pxPullback = xPullback,
-        pyPullback = yPullback + 2 * (ySymm - yPullback),
-        pyStart = yStart + 2 * (ySymm - yStart);
+    var px1Line = x1Line,
+        px2Line = x2Line,
+        py2Line = y2Line + 2 * (ySymm - y2Line),
+        py1Line = y1Line + 2 * (ySymm - y1Line);
 
     // triangle tip point
     var px = null, py = null;
-    var point = anychart.math.intersectInfiniteLineLine(xStart, yStart, xPullback, yPullback, xTop, yTop, pxPullback, pyPullback);
+    var point = anychart.math.intersectInfiniteLineLine(x1Line, y1Line, x2Line, y2Line, xStart, yStart, px2Line, py2Line);
     if (point) {
         px = point.x;
         py = point.y;
     }
 
     // shorten projected start point
-    var pxStart = xStart + (xTop - xStart) / 2;
-        pyStart = pyStart + (yTop - pyStart) / 2;
+
+    /*var px1Line = x1Line + (xStart - x1Line) / 2;
+        py1Line = py1Line + (yStart - py1Line) / 2;*/
 
     // when inversed
-    if (px < xStart) {
-        pxStart = xPullback + (xTop - xPullback) / 2;
-        pyStart = yPullback + 2 * (ySymm - yPullback);
-        pyStart = pyStart + (yTop - pyStart) / 2;
+    if (px < x1Line) {
+        px1Line = x2Line + (xStart - x2Line) / 2;
+        py1Line = y2Line + 2 * (ySymm - y2Line);
+        py1Line = py1Line + (yStart - py1Line) / 2;
     }
 
     for (var i = 0; i < this.paths_.length; i++) {
@@ -159,15 +134,15 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
 
         // first wedge line
         if (px && py) {
-            if (px > xStart) {
-                path.moveTo(xStart, yStart)
+            if (px > x1Line) {
+                path.moveTo(x1Line, y1Line)
                     .lineTo(px, py);
             } else {
-                path.moveTo(xPullback, yPullback)
+                path.moveTo(x2Line, y2Line)
                     .lineTo(px, py);
             }
 
-            path.moveTo(pxStart, pyStart)
+            path.moveTo(xStart, yStart)
                 .lineTo(px, py);
         }
     }
