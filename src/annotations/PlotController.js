@@ -12,6 +12,7 @@ goog.require('anychart.annotationsModule.InfiniteLine');
 goog.require('anychart.annotationsModule.Label');
 goog.require('anychart.annotationsModule.Line');
 goog.require('anychart.annotationsModule.Marker');
+goog.require('anychart.annotationsModule.PatternBreakoutWedge');
 goog.require('anychart.annotationsModule.PatternCupHandle');
 goog.require('anychart.annotationsModule.PatternFibonacciTriangle');
 goog.require('anychart.annotationsModule.PatternFibonacciTriangleExt');
@@ -946,6 +947,20 @@ anychart.annotationsModule.PlotController.prototype.patternRatioTriangle = funct
 
 
 /**
+ * Creates and returns a pattern-breakout-wedge annotation.
+ * @param {Object=} opt_config
+ * @return {anychart.annotationsModule.PatternBreakoutWedge}
+ */
+anychart.annotationsModule.PlotController.prototype.patternBreakoutWedge = function(opt_config) {
+    var annotation = /** @type {anychart.annotationsModule.PatternBreakoutWedge} */(
+        this.controller_.createAnnotationByType(anychart.enums.AnnotationTypes.PATTERNBREAKOUTWEDGE));
+  annotation.setup(opt_config);
+  this.bindAnnotation(annotation, true);
+  return annotation;
+};
+
+
+/**
  * Creates and returns a pattern-fibonacci-triangle annotation.
  * @param {Object=} opt_config
  * @return {anychart.annotationsModule.PatternFibonacciTriangle}
@@ -1605,6 +1620,7 @@ anychart.annotationsModule.PlotController.AnchorDragger.prototype.handleDragEnd_
   proto['horizontalRange'] = proto.horizontalRange;
   proto['rectangle'] = proto.rectangle;
   proto['ellipse'] = proto.ellipse;
+  proto['patternBreakoutWedge'] = proto.patternBreakoutWedge;
   proto['patternCupHandle'] = proto.patternCupHandle;
   proto['patternFlag'] = proto.patternFlag;
   proto['patternMedianWedge'] = proto.patternMedianWedge;
