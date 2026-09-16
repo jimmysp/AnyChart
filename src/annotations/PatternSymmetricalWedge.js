@@ -92,39 +92,6 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
     x2Line = pointsByTime[2].x;
     y2Line = pointsByTime[2].y;
 
-
-    // project top point on the wedge line
-    var pyStart = y1Line - (xStart - x1Line) / (x2Line - x1Line) * (y1Line - y2Line);
-
-    // symmetry line
-    var ySymm = yStart - (yStart - pyStart) / 2;
-
-    // mirrored points
-    var px1Line = x1Line,
-        px2Line = x2Line,
-        py2Line = y2Line + 2 * (ySymm - y2Line),
-        py1Line = y1Line + 2 * (ySymm - y1Line);
-
-    // triangle tip point
-    var px = null, py = null;
-    var point = anychart.math.intersectInfiniteLineLine(x1Line, y1Line, x2Line, y2Line, xStart, yStart, px2Line, py2Line);
-    if (point) {
-        px = point.x;
-        py = point.y;
-    }
-
-    // shorten projected start point
-
-    /*var px1Line = x1Line + (xStart - x1Line) / 2;
-        py1Line = py1Line + (yStart - py1Line) / 2;*/
-
-    // when inversed
-    if (px < x1Line) {
-        px1Line = x2Line + (xStart - x2Line) / 2;
-        py1Line = y2Line + 2 * (ySymm - y2Line);
-        py1Line = py1Line + (yStart - py1Line) / 2;
-    }
-
     for (var i = 0; i < this.paths_.length; i++) {
         // only stroke and hover paths
         if (i != 0 && i != 3) continue;
@@ -132,19 +99,8 @@ anychart.annotationsModule.PatternSymmetricalWedge.prototype.drawThreePointsShap
 
         path.clear();
 
-        // first wedge line
-        if (px && py) {
-            if (px > x1Line) {
-                path.moveTo(x1Line, y1Line)
-                    .lineTo(px, py);
-            } else {
-                path.moveTo(x2Line, y2Line)
-                    .lineTo(px, py);
-            }
-
-            path.moveTo(xStart, yStart)
-                .lineTo(px, py);
-        }
+        path.moveTo(x1Line, y1Line)
+            .lineTo(x2Line, y2Line);
     }
 
 };
